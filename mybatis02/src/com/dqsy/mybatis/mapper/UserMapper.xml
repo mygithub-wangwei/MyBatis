@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dqsy.mybatis.mapper.UserMapper">
+<!--  
+	id:表示一个SQL句柄,相当于JDBC中的statement
+	parametaerType:输入参数的类型,在SQL语句中,通过占位符#{}来接受参数
+	resultType:SQL操作的返回结果类型
+-->
+  <!-- 单个查询 -->
+  <select id="getUserById" parameterType="java.lang.Integer" 
+  resultType="com.dqsy.mybatis.entity.User">
+    select id,name,password,age,create_time from user where id=#{id}
+  </select>
+  <!-- 查询列表 -->
+  <select id="getUserList" resultType="user">
+  	select id,name,password,age,create_time from user
+  </select>
+  <!-- 添加用户 注意在这传参是java里的参数 而不是数据库里的字段名-->
+  <select id="addUser" parameterType="com.dqsy.mybatis.entity.User">
+  	insert into user(name,password,age,create_time) values(#{name}, #{password} ,#{age}, #{createTime})
+  </select>
+  <!-- 删除用户 -->
+  <select id="delUser" parameterType="java.lang.Integer">
+  	delete from user where id = #{id}
+  </select>
+  <!-- 修改用户的数据 -->
+  <select id="uptUser" parameterType="com.dqsy.mybatis.entity.User">
+  	update user set name=#{name}, password=#{password}, age=#{age}, create_time=#{createTime} where id=#{id}
+  </select>
+  <!-- 用户名和密码登陆 -->
+  <select id="getUserByIdAndPwd" resultType="user">
+  	select id,name,password,age,create_time
+  	from user
+  	where name=#{0} and password=#{1}
+  </select>
+  <!-- 包装类测试 -->
+  <select id="getUserByUserDto" parameterType="com.dqsy.mybatis.dto.UserDto"
+  resultType="user" >
+  	select id,name,age,create_time
+  	from user
+  	where name like '%${user.name}%'
+  </select>
+  <!-- 统计表数量 -->
+  <select id="getUserCount" resultType="int" >
+  	select count(0) from user
+  </select>
+  <!-- 返回HashMap -->
+  <select id="getUserListMap" resultType="HashMap">
+  	select id,name,age,create_time
+  	from user
+  </select>
+  <!-- 定义一个resultMap -->
+  <resultMap type="user" id="userResultMap">
+  	<id column="id" property="id"/>
+  	<result column="name" property="name"/>
+  	<result column="age" property="age"/>
+  </resultMap>
+  <!-- 返回resultType -->
+  <select id="getUserListByResultMap" resultMap="userResultMap">
+  	select id,name,age,create_time
+  	from user
+  </select>
+</mapper>

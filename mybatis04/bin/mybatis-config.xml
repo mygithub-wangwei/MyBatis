@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties resource="jdbc.properties"></properties>
+	<!-- 开启驼峰命名法规则,create_time 就等于createTime  -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<!-- 开启延迟加载 -->
+		<!-- 延迟加载总开关 -->
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<!-- 开启需要加载开关 -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+		<!-- 开启二级缓存 -->
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	<!-- 设置别名 -->
+	<typeAliases>
+		<!-- 单个别名设置 -->
+		<!-- <typeAlias type="com.dqsy.mybatis.entity.User" alias="user"/> -->
+		<!-- 批量设置别名 -->
+		<package name="com.dqsy.mybatis.entity"/>
+	</typeAliases>
+	<!-- 默认引用那个数据库环境 -->
+	<environments default="development">
+		<environment id="development">
+			<!-- 事务管理方式 -->
+			<transactionManager type="JDBC" />
+			<!-- 数据库连接四要素 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- SQL的映射文件 -->
+	<mappers>
+		<!-- 第一种方式 resource -->
+		<!-- <mapper resource="com/dqsy/mybatis/mapper/UserMapper.xml" /> -->
+		<!-- 第二种方式 class -->
+        <!--<mapper class="com.dqsy.mybatis.mapper.UserMapper"/> -->
+        <!-- 第三种方式 pacgages -->
+        <package name="com/dqsy/mybatis/mapper"/>
+	</mappers>
+</configuration>
