@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<bean id="user" class="com.dqsy.spring.bean.User"></bean>
+	<!-- bean的初始化方法 -->
+	<bean id="init" class="com.dqsy.spring.bean.InitBean" init-method="init"></bean>
+	<!-- scope 没有添加,默认值是singleton -->
+	<bean id="scope" class="com.dqsy.spring.bean.ScopeBean" scope="prototype"></bean>
+	<!-- spring bean 定义继承 -->
+	<bean id="hello" class="com.dqsy.spring.bean.HelloWorld" abstract="false">
+		<property name="name" value="王巍"></property>
+	</bean>
+	<bean id="china" class="com.dqsy.spring.bean.HelloChina" parent="hello">
+		<!-- <property name="name" value="阮宁宁"></property> -->
+		<property name="age" value="18"></property>
+	</bean>
+	
+</beans>

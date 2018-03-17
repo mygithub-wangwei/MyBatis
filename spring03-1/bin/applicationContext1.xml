@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	<!-- 汽车类配置 -->
+	<bean id="car" class="com.dqsy.spring.autowire.Car" p:brand="LuHu" p:price="50000"></bean>
+	<!-- 地址类配置 -->
+    <bean id="address" class="com.dqsy.spring.autowire.Address" p:city="兰州" p:street="中山桥"></bean>
+	<!-- <bean id="address1" class="com.dqsy.spring.autowire.Address" p:city="哈尔冰" p:street="南岗街"></bean> -->
+	<!-- Person类的配置 -->
+	<!-- <bean id="person" class="com.dqsy.spring.autowire.Person" p:name="甜" p:car-ref="car"
+	p:address-ref="address"></bean> -->
+	<!-- byName自动装配 -->
+	<!-- <bean id="person" class="com.dqsy.spring.autowire.Person" autowire="byName">
+		<property name="name" value="王甜"></property>
+	</bean> -->
+	<!-- byType自动装配 -->
+	<bean id="person" class="com.dqsy.spring.autowire.Person" autowire="byType">
+		<property name="name" value="王甜"></property>
+	</bean>
+</beans>

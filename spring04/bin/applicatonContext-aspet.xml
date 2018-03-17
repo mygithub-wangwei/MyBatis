@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+		<!-- 配置IUserDao -->
+		<bean id="userDao" class="com.dqsy.spring.dao.impl.IUserDaoImpl"></bean>
+		<!-- 配置切面 -->
+		<bean id="myAspect" class="com.dqsy.spring.aspect.MyAspect"></bean>
+		<!-- AspectJ的AOP配置 -->
+	<aop:config>
+	<!-- * add*(..) : 第一个*表示包路径，空格，add*:表示方法名称的表达式匹配， (..) :表示方法的参数 -->
+		<aop:pointcut expression="execution(* add*(..))" id="beforePointCut" />
+		<aop:pointcut expression="execution(* update*(..))" id="afterPointCut" />
+		<aop:pointcut expression="execution(* get*(..))" id="aroundPointCut" />
+		
+		<aop:pointcut expression="execution(* delete*(..))" id="throwingPointCut" />
+		
+		<aop:pointcut expression="execution(* delete*(..))" id="lastPointCut" />
+
+<!-- 这里是配置切面的通知/顾问 的方法 -->
+		<aop:aspect ref="myAspect">
+			<aop:before method="beforeAdvice" pointcut-ref="beforePointCut"/>
+			
+			<aop:after-returning method="afterAdvice(java.lang.Object)" 
+			pointcut-ref="afterPointCut" returning="result"/>
+			
+			<aop:around method="aroundAdvice" pointcut-ref="aroundPointCut"/>
+			
+			<aop:after-throwing method="afterThrowingAdvice(java.lang.Exception)" 
+			pointcut-ref="throwingPointCut" throwing="ex"/>
+			
+			<aop:after method="lastAdvice" pointcut-ref="lastPointCut"/>
+		</aop:aspect>
+	</aop:config>
+
+</beans>

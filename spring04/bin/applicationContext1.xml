@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<!-- 配置IUserDaoImpl -->
+	<bean id="userDao" class="com.dqsy.spring.proxy.impl.IUserDaoImpl"></bean>
+	<!-- 注册前置的通知,切面的实现 -->
+	<bean id="beforeAdvice" class="com.dqsy.spring.proxy.MyBeforeAdvice"></bean>
+	<!-- 注册前置通知代理生成器, 注入目标接口,目标类,通知 -->
+	<bean id="myBeforeProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="userDao"></property>
+		<property name="interfaces" value="com.dqsy.spring.proxy.IUserDao"></property>
+		<property name="interceptorNames" value="beforeAdvice"></property>
+	</bean>
+	<!-- 注册后置通知 -->
+	<bean id="afterAdvice" class="com.dqsy.spring.advice.MyAfterAdvice"></bean>
+	<!-- 注册后置代理生成器 -->
+	<bean id="myAfterProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="userDao"></property>
+		<property name="interfaces" value="com.dqsy.spring.proxy.IUserDao"></property>
+		<property name="interceptorNames" value="afterAdvice"></property>
+	</bean>
+	<!-- 注册环绕通知 -->
+	<bean id="aroundAdvice" class="com.dqsy.spring.advice.MyAroundAdvice"></bean>
+	<!-- 注册代理生成器 -->
+	<bean id="myAroundProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="userDao"></property>
+		<property name="interfaces" value="com.dqsy.spring.proxy.IUserDao"></property>
+		<property name="interceptorNames" value="aroundAdvice"></property>
+	</bean>
+	<!-- 注册异常通知 -->
+	<bean id="throwAdvice" class="com.dqsy.spring.advice.MyThrowingAdvice"></bean>
+	<!-- 注册代理生成器 -->
+	<bean id="myThrowProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="userDao"></property>
+		<property name="interfaces" value="com.dqsy.spring.proxy.IUserDao"></property>
+		<property name="interceptorNames" value="throwAdvice"></property>
+	</bean>
+</beans>
